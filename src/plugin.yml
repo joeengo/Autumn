@@ -1,0 +1,19 @@
+main: gq.engo.Plugin
+name: Autumn
+version: 1.21
+commands:
+   kill:
+     description: Kill yourself
+     usage: /kill
+   discord:
+      description: Get discord invite
+      usage: /discord
+   say:
+      description: Announce
+      usage: /say <message>
+   gettps:
+   uniquejoins:
+   help:
+   autumn:
+   dupe:
+   vanish:

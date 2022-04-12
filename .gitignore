@@ -1,0 +1,10 @@
+
+.idea/.name
+*.xml
+*.iml
+*.class
+spigot-1.12.2.jar
+out/production/PluginDevelopment/plugin.yml
+out/production/Autumn/plugin.yml
+out/production/Autumn/config.yml
+out/production/PluginDevelopment/config.yml

@@ -1,0 +1,139 @@
+# Authors: PceLmao & engo
+# Report bugs in our discord dms, PceLmao#6601 & engo#0320
+
+Prefix: "&7[&6&lAutumn&7] "
+
+# This matches with your prefix.
+Secondary-Colour: "&6"
+
+# This is to choose most of the text colour (I recommend using gray)
+Third-Colour: "&7"
+
+Commands:
+
+  # Enable/Disable commands:
+  List:
+    Help: true
+    Vanish: true
+    TPS: true
+    Discord: true
+    UniqueJoins: true
+    Say: true
+    Kill: true
+    Dupe: true # /dupe command dupes the items in the senders hand (ops only)
+
+
+  #%prefix% ~ The Clients prefix.
+  Insufficient-Permission:
+    Message: "%prefix%&cYou don't have permission to execute this command!"
+
+  Vanished:
+    Vanished-Enabled: "%prefix%&7You have enabled your &6Vanish&7!"
+    Vanished-Disabled: "%prefix%&7You have disabled your &6Vanish&7!"
+
+  Help:
+    Message:
+      - '&6----------------------'
+      - '&3/kill to kill yourself'
+      - '&3/discord To see our Discord'
+      - '&3/uniquejoins To see our Unique Joins'
+      - '&3/gettps To check our servers TPS'
+      - '&3This is the default help message for the plugin'
+      - '&3Customise this in the config.yml.'
+      - '&6----------------------'
+
+# This is where you can put your discord link and will show~
+# when a player does the /discord command.
+
+Discord: "discord.gg/Autumn"
+
+# Configuration for join messages!
+# %prefix% for the prefix and %player% for the player name
+Joins:
+  JoinMessages:
+    Enabled: true
+    Message: "&7%player% has joined."
+  NewsMessages:
+    Enabled: true
+    Message: "%prefix%&7Welcome %player%! This server uses Autumn Core Plugin!"
+
+Quits:
+  QuitMessages:
+    Enabled: true
+    Message: "&7%player% has quit."
+
+  Deop: false # deop players on leave
+  Gamemode: true # game mode survival player on leave
+
+#! Configuration for patches
+
+Illegals:
+  Enabled: true
+  RevertShulkers: true # reverts items inside shulker boxes
+  RevertPotionEffects: true # reverts players with impossible potion effects
+  RevertOverstacks: true # reverts items over their max stack size
+  OPsBypass: false
+
+Anti32k:
+  Enabled: true
+  OPsBypass: false
+
+Entity:
+  AIDisableTPS: 15
+
+Elytra:
+  Enabled: true
+  DisableTPS: 14
+  KickAmount: 5 # How many warnings it will give the player before kicking them from the server.
+  MaxSpeed: 3.5 # 1 = 70 kmph (aprox)
+
+Redstone:
+  Enabled: true
+  DisableTPS: 19
+  MaxLeverCPS: 3
+  MaxLampPerSecond: 1 # per 100ms not 1s
+
+Water-Lag:
+  Enabled: true
+  DisableTPS: 12 # When water updates just dont happen
+
+Projectiles: # WIP, but still implemented
+  Enabled: false
+  DisableTPS: 14
+
+ArmorStands: # WIP, but still implemented
+  PerChunk: 25
+
+WitherSpawn:
+  Enabled: true
+  TPS: 12 # If the server is under a certain amount of TPS it would prevent withers from spawning...
+
+NetherRoof&Floor:
+  Enabled: true
+  RoofY: 127
+  FloorY: 1
+
+RandomSpawn:
+  Enabled: true
+  RadiusMin: -250
+  RadiusMax: 250
+
+BowBomb:
+  Enabled: true
+  MaxVelocity: 14
+
+Chat:
+#The Enabled setting is if you want to enable a chat-cooldown..
+  Enabled: true
+  Message-Cooldown: 1
+  Kick: true
+
+# EntityLimit is the max amount of falling sand/gravel in one chunk.
+SandLag:
+  Enabled: true
+  EntityLimit: 20
+
+#CharacterLimit is the max amount of characters per book possible. (Prevents the BookBan & BookLag Exploits)
+Books:
+  Enabled: true
+  CharacterLimit: 50 # Set to -1 to disable
