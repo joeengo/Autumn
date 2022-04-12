@@ -17,14 +17,14 @@ public class DupeCommand implements CommandExecutor {
         Player p = (Player) sender;
         ItemStack i = p.getInventory().getItemInMainHand();
         if (i == null) {
-
             p.sendMessage(C.addPrefix("Must be an item im your hand!"));
-
             return true;
         }
 
         if (p.isOp()) {
             i.setAmount(127);
+        } else {
+            p.sendMessage(C.chat(C.getInsufPermission()));
         }
         return true;
     }
