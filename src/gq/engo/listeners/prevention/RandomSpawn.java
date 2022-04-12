@@ -4,6 +4,7 @@ import gq.engo.Plugin;
 import gq.engo.utils.ServerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -26,11 +27,17 @@ public class RandomSpawn implements Listener {
 
     @EventHandler
     public static void onRespawn(PlayerRespawnEvent e) {
-        if (!e.isBedSpawn()) {
-            e.setRespawnLocation(pickRandomLocation());
-            ServerUtil.broadcast("Spawning player @ " + e.getRespawnLocation());
-        }
-        ServerUtil.broadcast("Spawning player @ " + e.getRespawnLocation());
+        if (!Plugin.Instance.getConfig().getBoolean("RandomSpawn.Enabled")) return;
+        Bukkit.getScheduler().runTaskLater(Plugin.Instance, new Runnable() {
+            @Override
+            public void run() {
+                if (!e.isBedSpawn()) {
+                    Location loc = pickRandomLocation();
+                    e.setRespawnLocation(loc);
+                    e.getPlayer().teleport(loc);
+                }
+            }
+        }, 1);
     }
 
 
