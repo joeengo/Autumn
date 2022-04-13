@@ -1,6 +1,6 @@
 main: gq.engo.Plugin
 name: Autumn
-version: 1.22
+version: 1.23
 commands:
    kill:
    discord:

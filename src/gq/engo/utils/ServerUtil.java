@@ -17,10 +17,12 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class ServerUtil {
     public static void broadcast(String message) {
@@ -58,7 +60,7 @@ public class ServerUtil {
     }
 
     public static void clearPotions(Player p, org.bukkit.potion.PotionEffect i, boolean isDuration) {
-        String cause = "";
+        String cause;
 
         if (isDuration) {
             cause = C.getThird("") + "(" + C.getSecondary("") + i.getType().getName() + " DURATION " + (i.getDuration()) + C.getThird(")");
@@ -78,37 +80,23 @@ public class ServerUtil {
             Material t = i.getType();
             switch (t) {
                 case PURPLE_SHULKER_BOX:
-                    return true;
                 case WHITE_SHULKER_BOX:
-                    return true;
                 case ORANGE_SHULKER_BOX:
-                    return true;
                 case MAGENTA_SHULKER_BOX:
-                    return true;
                 case LIGHT_BLUE_SHULKER_BOX:
-                    return true;
                 case YELLOW_SHULKER_BOX:
-                    return true;
                 case LIME_SHULKER_BOX:
-                    return true;
                 case PINK_SHULKER_BOX:
-                    return true;
                 case GRAY_SHULKER_BOX:
-                    return true;
                 case CYAN_SHULKER_BOX:
-                    return true;
                 case BLUE_SHULKER_BOX:
-                    return true;
                 case BROWN_SHULKER_BOX:
-                    return true;
                 case GREEN_SHULKER_BOX:
-                    return true;
                 case RED_SHULKER_BOX:
-                    return true;
                 case BLACK_SHULKER_BOX:
                     return true;
             }
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
         return false;
     }
 
@@ -135,7 +123,14 @@ public class ServerUtil {
             }
         }
 
-        if (item.getType().equals(Material.FURNACE)
+        if (item.getType().equals(Material.SKULL) || item.getType().equals(Material.SKULL_ITEM)) {
+            SkullMeta sk = (SkullMeta) item.getItemMeta();
+            if (sk.getOwningPlayer() != null) {
+                return true;
+            }
+        }
+
+        if (item.getType().equals(Material.FURNACE) // patch items put inside of storages while in ItemStack state
             || item.getType().equals(Material.CHEST)
             || item.getType().equals(Material.TRAPPED_CHEST)
             || item.getType().equals(Material.HOPPER)
@@ -143,6 +138,7 @@ public class ServerUtil {
             || item.getType().equals(Material.DROPPER) )
         {
             NBTTagCompound tag = nmscopy.getTag();
+
             if (tag!=null) {
                 return true;
             }
@@ -171,7 +167,7 @@ public class ServerUtil {
 
         if (item.getDurability() > item.getType().getMaxDurability() && item.getType().getMaxDurability() > 0) {
             return true;
-        };
+        }
 
         try {
             if (item.getEnchantments() != null) {
@@ -186,63 +182,118 @@ public class ServerUtil {
                     }
                 }
             }
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
 
         if (MaterialHandler.isIllegalMaterial(item.getType())) return true;
 
         if ((isShulker(item) && Plugin.Instance.getConfig().getBoolean("Illegals.RevertShulkers"))) {
             if (isInsideShulker) return true;
 
-            for (ItemStack i : getShulkerInventory(item).getContents()) {
+            for (ItemStack i : Objects.requireNonNull(getShulkerInventory(item)).getContents()) {
                 if (isIllegal(i, true)) {
                     return true;
                 }
             }
         }
 
-        if ((item.getAmount() > item.getMaxStackSize()) && Plugin.Instance.getConfig().getBoolean("Illegals.RevertOverstacks")) return true;
-
-        return false;
+        return (item.getAmount() > item.getMaxStackSize()) && Plugin.Instance.getConfig().getBoolean("Illegals.RevertOverstacks");
     }
 
-    public static void clearIllegalsInInventory(Inventory inv, boolean isShulker) {
-        for (ItemStack i : inv.getContents()) {
-            if (isIllegal(i, isShulker)) {
-                i.setAmount(0);
+    public static String getIllegalReason(ItemStack item, boolean isInsideShulker) {
+        if (item == null) return "Unknown";
+
+        net.minecraft.server.v1_12_R1.ItemStack nmscopy = CraftItemStack.asNMSCopy(item);
+        if (nmscopy.hasTag()) {
+            NBTTagCompound tag = nmscopy.getTag();
+            assert tag != null;
+            if (tag.get("AttributeModifiers") != null) {
+                return "Attribute Modifiers";
+            }
+            if (tag.get("Unbreakable") != null) {
+                return "Unbreakable";
             }
         }
-    }
 
-    public static void clearIllegalsInInventory2(ItemStack inv, boolean isShulker) {
-        for (ItemStack i : getShulkerInventory(inv).getContents()) {
-            if (isIllegal(i, isShulker)) {
-                inv.setAmount(0);
-                break;
+        if (item.getType().equals(Material.SKULL) || item.getType().equals(Material.SKULL_ITEM)) {
+            SkullMeta sk = (SkullMeta) item.getItemMeta();
+            if (sk.getOwningPlayer() != null) {
+                return "Player head";
             }
         }
-    }
 
-    public static void clearIllegalsInInventoryWithShulkers(Inventory inventory) {
-        for (ItemStack i : inventory.getContents()) {
-            if (isShulker(i)) {
-                clearIllegalsInInventory2(i, true);
-            } else {
-                if (isIllegal(i, false)) {
-                    i.setAmount(0);
+        if (item.getType().equals(Material.FURNACE) // patch items put inside of storages while in ItemStack state
+                || item.getType().equals(Material.CHEST)
+                || item.getType().equals(Material.TRAPPED_CHEST)
+                || item.getType().equals(Material.HOPPER)
+                || item.getType().equals(Material.DISPENSER)
+                || item.getType().equals(Material.DROPPER) )
+        {
+            NBTTagCompound tag = nmscopy.getTag();
+            if (tag!=null) {
+                return "NBT Data invalid";
+            }
+        }
+
+
+        if (item.getType() == Material.LINGERING_POTION || item.getType() == Material.SPLASH_POTION || item.getType() == Material.POTION || item.getType() == Material.TIPPED_ARROW) {
+            PotionMeta potionMeta = (PotionMeta) item.getItemMeta();
+            if (potionMeta.hasCustomEffects()) {
+                for (PotionEffect effect : potionMeta.getCustomEffects()) {
+                    if (effect.getDuration() > 12000) {
+                        return "Illegal potion duration";
+                    }
+                    if (effect.getType() == PotionEffectType.DAMAGE_RESISTANCE) {
+                        if (effect.getAmplifier() > 1) {
+                            return "Illegal potion amplifier";
+                        }
+                    } else {
+                        if (effect.getAmplifier() > 5) {
+                            return "Illegal potion amplifier";
+                        }
+                    }
                 }
             }
         }
+
+        if (item.getDurability() > item.getType().getMaxDurability() && item.getType().getMaxDurability() > 0) {
+            return "Illegal durability";
+        }
+
+        try {
+            if (item.getEnchantments() != null) {
+                Map<Enchantment, Integer> ench = item.getEnchantments();
+
+                for (Map.Entry<Enchantment, Integer> entry : ench.entrySet()) {
+                    Enchantment enchant = entry.getKey();
+                    int enchantLvl = entry.getValue();
+
+                    if (enchantLvl > enchant.getMaxLevel()) {
+                        return "Illegal enchant";
+                    }
+                }
+            }
+        } catch (Exception ignored) {}
+
+        if (MaterialHandler.isIllegalMaterial(item.getType())) return "Illegal block";
+
+        if ((isShulker(item) && Plugin.Instance.getConfig().getBoolean("Illegals.RevertShulkers"))) {
+            if (isInsideShulker) return "Shulker inside shulker";
+
+            for (ItemStack i : Objects.requireNonNull(getShulkerInventory(item)).getContents()) {
+                if (isIllegal(i, true)) {
+                    return getIllegalReason(i, true);
+                }
+            }
+        }
+
+        if ((item.getAmount() > item.getMaxStackSize()) && Plugin.Instance.getConfig().getBoolean("Illegals.RevertOverstacks")) return "Overstack";
+
+        return "Unknown";
     }
 
-    public static void clearIllegalsInInv(Inventory inventory) {
-        if (Plugin.Instance.getConfig().getBoolean("Illegals.RevertShulkers")) {
-            clearIllegalsInInventoryWithShulkers(inventory);
-        } else {
-            clearIllegalsInInventory(inventory, false);
-        }
-    }
+
 
     public static boolean opCheck(Player p, String path) {
-        return (!p.isOp() || Plugin.Instance.getConfig().getBoolean(path+".OPsBypass") == false);
+        return (!p.isOp() || !Plugin.Instance.getConfig().getBoolean(path + ".OPsBypass"));
     }
 }

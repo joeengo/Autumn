@@ -40,13 +40,14 @@ public class Antillegal implements Listener {
         Player plr = e.getPlayer();
         Material type = e.getBlock().getType();
         if (MaterialHandler.isIllegalMaterial(type) && e.getItemInHand().getType() != Material.EYE_OF_ENDER) {
-            e.getBlock().setType(Material.AIR);
+            //e.getBlock().setType(Material.AIR);
             e.setBuild(false);
             e.setCancelled(true);
         }
 
         if (ServerUtil.isIllegal(e.getItemInHand(), false)) {
-            e.getBlock().setType(Material.AIR);
+            plr.sendMessage(C.chat(C.addPrefix("Illegal item! ("+ServerUtil.getIllegalReason(e.getItemInHand(), false)+")")));
+            //e.getBlock().setType(Material.AIR);
             e.setBuild(false);
             e.setCancelled(true);
         }
@@ -76,7 +77,7 @@ public class Antillegal implements Listener {
         ItemStack newItem = e.getPlayer().getInventory().getItem(e.getNewSlot());
         if (ServerUtil.isIllegal(newItem, false) && (ServerUtil.opCheck(e.getPlayer(), "Illegals")) ) {
             newItem.setAmount(0);
-            e.getPlayer().sendMessage(C.addPrefix("Detected impossible item."));
+            e.getPlayer().sendMessage(C.chat(C.addPrefix("Illegal item! ("+ServerUtil.getIllegalReason(newItem, false)+")")));
         }
     }
 
@@ -84,12 +85,9 @@ public class Antillegal implements Listener {
     public void onDrop(PlayerDropItemEvent e) {
         if (Plugin.Instance.getConfig().getBoolean("Illegals.Enabled") == false) return;
         if (ServerUtil.opCheck(e.getPlayer(), "Illegals")) {
-
-            ServerUtil.clearIllegalsInInv(e.getPlayer().getInventory());
-
             if (ServerUtil.isIllegal(e.getItemDrop().getItemStack(), false)) {
                 e.getItemDrop().remove();
-                e.getPlayer().sendMessage(C.addPrefix("Detected impossible item."));
+                e.getPlayer().sendMessage(C.chat(C.addPrefix("Illegal item! ("+ServerUtil.getIllegalReason(e.getItemDrop().getItemStack(), false)+")")));
             }
         }
     }
@@ -98,7 +96,12 @@ public class Antillegal implements Listener {
     public void onInventory(InventoryOpenEvent e) {
         if (Plugin.Instance.getConfig().getBoolean("Illegals.Enabled") == false) return;
         if (ServerUtil.opCheck(Bukkit.getPlayer(e.getPlayer().getUniqueId()), "Illegals")) {
-            ServerUtil.clearIllegalsInInv(e.getInventory());
+            for (ItemStack item : e.getInventory()) {
+                if (ServerUtil.isIllegal(item, false)) {
+                    e.getPlayer().sendMessage(C.chat(C.addPrefix("Illegal item! ("+ServerUtil.getIllegalReason(item, false)+")")));
+                    item.setAmount(0);
+                }
+            }
         }
     }
 
@@ -106,7 +109,12 @@ public class Antillegal implements Listener {
     public void onInventoryClose(InventoryCloseEvent e) {
         if (Plugin.Instance.getConfig().getBoolean("Illegals.Enabled") == false) return;
         if (ServerUtil.opCheck(Bukkit.getPlayer(e.getPlayer().getUniqueId()), "Illegals")) {
-            ServerUtil.clearIllegalsInInv(e.getPlayer().getInventory());
+            for (ItemStack item : e.getInventory()) {
+                if (ServerUtil.isIllegal(item, false)) {
+                    e.getPlayer().sendMessage(C.chat(C.addPrefix("Illegal item! ("+ServerUtil.getIllegalReason(item, false)+")")));
+                    item.setAmount(0);
+                }
+            }
         }
     }
 
@@ -117,10 +125,15 @@ public class Antillegal implements Listener {
         Player p = Bukkit.getPlayer(playerUID);
 
         if (ServerUtil.opCheck(Bukkit.getPlayer(e.getWhoClicked().getUniqueId()), "Illegals")) {
-            ServerUtil.clearIllegalsInInv(p.getInventory());
+            for (ItemStack item : e.getInventory()) {
+                if (ServerUtil.isIllegal(item, false)) {
+                    p.sendMessage(C.chat(C.addPrefix("Illegal item! ("+ServerUtil.getIllegalReason(item, false)+")")));
+                    item.setAmount(0);
+                }
+            }
         }
 
-        ServerUtil.clearIllegalsInInv( e.getInventory() );
+
     }
 
     @EventHandler
@@ -131,6 +144,8 @@ public class Antillegal implements Listener {
             if (ServerUtil.isIllegal(e.getItem().getItemStack(), false)) {
                 e.setCancelled(true);
                 e.getItem().remove();
+                Player p = (Player) e.getEntity();
+                p.sendMessage(C.chat(C.addPrefix("Illegal item! ("+ServerUtil.getIllegalReason(e.getItem().getItemStack(), false)+")")));
             }
         }
     }
@@ -138,8 +153,6 @@ public class Antillegal implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent e) {
         if (Plugin.Instance.getConfig().getBoolean("Illegals.Enabled") == false) return;
-
-
         // anti potion illegal thing
         if (Plugin.Instance.getConfig().getBoolean("Illegals.RevertPotionEffects") && ((Plugin.Instance.getConfig().getBoolean("Illegals.OPsBypass") && !e.getPlayer().isOp()) || !Plugin.Instance.getConfig().getBoolean("Illegals.OPsBypass"))) {
             PotionEffect[] potions = e.getPlayer().getActivePotionEffects().toArray(new org.bukkit.potion.PotionEffect[0]);
