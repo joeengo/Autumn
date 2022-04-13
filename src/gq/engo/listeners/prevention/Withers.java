@@ -15,6 +15,7 @@ public class Withers implements Listener {
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent e) {
         boolean enabled = Plugin.Instance.getConfig().getBoolean("WitherSpawn.Enabled");
+        int limit = Plugin.Instance.getConfig().getInt("WitherSpawn.MaxPerChunk");
         if (!enabled) return;
 
         Integer tps = Plugin.Instance.getConfig().getInt("WitherSpawn.TPS");
@@ -26,6 +27,17 @@ public class Withers implements Listener {
                 }
             }
         }
+
+        int i = 0;
+        for (Entity entity : e.getLocation().getChunk().getEntities()) {
+            if (entity.getType() == EntityType.WITHER) {
+                i = i + 1;
+            }
+        }
+        if (i > limit) {
+            e.setCancelled(true);
+        }
+
     }
 
 }

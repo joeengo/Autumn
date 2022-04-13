@@ -23,7 +23,7 @@ Commands:
     Dupe: true # /dupe command dupes the items in the senders hand (ops only)
 
 
-  #%prefix% ~ The Clients prefix.
+  #%prefix% ~ The Plugins prefix.
   Insufficient-Permission:
     Message: "%prefix%&cYou don't have permission to execute this command!"
 
@@ -91,9 +91,9 @@ Redstone:
   Enabled: true
   DisableTPS: 19
   MaxLeverCPS: 3
-  MaxLampPerSecond: 1 # per 100ms not 1s
+  MaxLampPerSecond: 1 # per 100ms not 1s lol
 
-Water-Lag:
+Water-Lag: # waterlag
   Enabled: true
   DisableTPS: 12 # When water updates just dont happen
 
@@ -106,6 +106,7 @@ ArmorStands: # WIP, but still implemented
 
 WitherSpawn:
   Enabled: true
+  MaxPerChunk: 20
   TPS: 12 # If the server is under a certain amount of TPS it would prevent withers from spawning...
 
 NetherRoof&Floor:
@@ -113,12 +114,12 @@ NetherRoof&Floor:
   RoofY: 127
   FloorY: 1
 
-RandomSpawn:
+RandomSpawn: # Spawns players at random parts of the map
   Enabled: true
   RadiusMin: -250
   RadiusMax: 250
 
-BowBomb:
+BowBomb: # prevent bow exploit
   Enabled: true
   MaxVelocity: 14
 
@@ -137,3 +138,9 @@ SandLag:
 Books:
   Enabled: true
   CharacterLimit: 50 # Set to -1 to disable
+
+AntiOp: # deops players when they move or run commands! (Preproccess command event, so it deops before the command is actually ran on the server)
+  Enabled: false # This is recommended to be turned off unless you are installing new plugins or dealing with sketchy situations (for cracked servers see deop on join)
+  Operators: # A list of the operators
+    - "John_Doe"
+    - "Jane_Doe"
