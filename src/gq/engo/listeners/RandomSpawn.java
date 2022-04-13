@@ -1,4 +1,4 @@
-package gq.engo.listeners.prevention;
+package gq.engo.listeners;
 
 import gq.engo.Plugin;
 import gq.engo.utils.ServerUtil;

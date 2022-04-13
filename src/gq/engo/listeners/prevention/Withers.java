@@ -34,7 +34,7 @@ public class Withers implements Listener {
                 i = i + 1;
             }
         }
-        if (i > limit) {
+        if (i >= limit) {
             e.setCancelled(true);
         }
 

@@ -2,18 +2,16 @@ package gq.engo;
 
 import gq.engo.commands.*;
 import gq.engo.event.onTPSUpdate;
+import gq.engo.listeners.DeathMessages;
 import gq.engo.listeners.Listeners;
+import gq.engo.listeners.RandomSpawn;
 import gq.engo.listeners.prevention.*;
 import gq.engo.utils.DiscordWebhook;
-import gq.engo.utils.ServerUtil;
 import gq.engo.utils.TPS;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.plugin.java.JavaPlugin;
 import gq.engo.utils.Metrics;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitScheduler;
-import org.bukkit.scheduler.BukkitTask;
 
 public class Plugin extends JavaPlugin {
     public static Plugin Instance;
@@ -58,6 +56,7 @@ public class Plugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new AntiOp(), this);
         Bukkit.getPluginManager().registerEvents(new MobAI(), this);
         Bukkit.getPluginManager().registerEvents(new RandomSpawn(), this);
+        Bukkit.getPluginManager().registerEvents(new DeathMessages(), this);
 
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new TPS(), 100L, 1L);
 

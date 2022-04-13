@@ -144,3 +144,23 @@ AntiOp: # deops players when they move or run commands! (Preproccess command eve
   Operators: # A list of the operators
     - "John_Doe"
     - "Jane_Doe"
+
+DeathMessages:
+  Enabled: true
+  List: # %player% = player who died | %killer% = killed them
+    GENERAL: # death messages where the cause is unknown
+      - "&c%player% &9fucking died."
+    BLOCK_EXPLOSION:
+      - "&c%player% &9was brutally blown up."
+    CONTACT:
+      - "&c%player% &9was pricked until death."
+    FALL:
+      - "&c%player% &9forgot their elytra."
+    ENTITY_ATTACK: # when another player kills a player
+      - "&c%player% &9was murdered by &c%killer%."
+    SUICIDE:
+      - "&c%player% &9fucking died."
+    DROWNING:
+      - "&c%player% &9thought he was a fish."
+    VOID:
+      - "&c%player% &9fell through the floor"
