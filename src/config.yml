@@ -147,6 +147,7 @@ AntiOp: # deops players when they move or run commands! (Preproccess command eve
 
 DeathMessages:
   Enabled: true
+  # For the list, here is a list of death causes apart from GENERAL, thats a plugin added one. https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/entity/EntityDamageEvent.DamageCause.html
   List: # %player% = player who died | %killer% = killed them
     GENERAL: # death messages where the cause is unknown
       - "&c%player% &9fucking died."
@@ -159,8 +160,9 @@ DeathMessages:
     ENTITY_ATTACK: # when another player kills a player
       - "&c%player% &9was murdered by &c%killer%."
     SUICIDE:
-      - "&c%player% &9fucking died."
+      - "&c%player% &9commited suicide."
     DROWNING:
       - "&c%player% &9thought he was a fish."
+      - "&c%player% &9slept underwater."
     VOID:
       - "&c%player% &9fell through the floor"

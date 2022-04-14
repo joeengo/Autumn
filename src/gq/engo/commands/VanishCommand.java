@@ -24,17 +24,18 @@ public class VanishCommand implements CommandExecutor {
                 for (Player i : Bukkit.getOnlinePlayers()) {
                     if (!i.hasPermission("autumn.vanish")) {
                         i.hidePlayer(Plugin.Instance, p);
-                        p.sendMessage(C.chat(vanishenabled));
                     }
                 }
+                p.sendMessage(C.chat(vanishenabled));
             } else {
                 vanished.put(p, false);
                 for (Player i : Bukkit.getOnlinePlayers()) {
                     if (!i.hasPermission("autumn.vanish")) {
                         i.showPlayer(Plugin.Instance, p);
-                        p.sendMessage(C.chat(vanishedisabled));
+
                     }
                 }
+                p.sendMessage(C.chat(vanishedisabled));
             }
         } else {
             p.sendMessage(C.chat(C.getInsufPermission()));
