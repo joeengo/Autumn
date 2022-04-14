@@ -39,7 +39,7 @@ public class TPS implements Runnable
 
     public static double getRoundedTPS() {
         double tps = getTPS();
-        return Math.max(0, Math.min(20, (Math.round(getTPS() * 10000) / 10000)));
+        return Math.round(tps * 100.0) / 100.0;
     }
 
 
@@ -60,7 +60,7 @@ public class TPS implements Runnable
 
     public static double getRoundedTPS2() {
         double tps = getTPS2();
-        return Math.max(0, Math.min(20, (Math.round(tps * 100) / 100)));
+        return Math.round(tps * 100.0) / 100.0;
     }
 
 

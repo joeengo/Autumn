@@ -5,6 +5,7 @@ import gq.engo.utils.C;
 import gq.engo.utils.ServerUtil;
 import gq.engo.utils.TPS;
 import org.bukkit.block.Block;
+import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.Bukkit;
@@ -14,8 +15,6 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockRedstoneEvent;
 
 
 public class Redstone implements Listener {
@@ -24,14 +23,37 @@ public class Redstone implements Listener {
     String playername = "";
     String cachedname = "";
 
+
+
+    @EventHandler
+    public void piston(BlockPistonRetractEvent e) {
+        boolean enabled = Plugin.Instance.getConfig().getBoolean("Redstone.Enabled");
+        int limit = Plugin.Instance.getConfig().getInt("Redstone.DisableTPS");
+        double tps = TPS.getRoundedTPS2();
+        if (enabled == false) return;
+        if (tps < limit) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void piston2(BlockPistonExtendEvent e) {
+        boolean enabled = Plugin.Instance.getConfig().getBoolean("Redstone.Enabled");
+        int limit = Plugin.Instance.getConfig().getInt("Redstone.DisableTPS");
+        double tps = TPS.getRoundedTPS2();
+        if (enabled == false) return;
+        if (tps < limit) {
+            e.setCancelled(true);
+        }
+    }
+
     @EventHandler
     public void redstoneUpdate(BlockRedstoneEvent e) {
         boolean enabled = Plugin.Instance.getConfig().getBoolean("Redstone.Enabled");
         int limit = Plugin.Instance.getConfig().getInt("Redstone.DisableTPS");
-        double tps = TPS.getRoundedTPS();
+        double tps = TPS.getRoundedTPS2();
         if (enabled == false) return;
         if (tps < limit) {
-            e.getBlock().setType(Material.AIR);
             e.getBlock().breakNaturally();
             e.setNewCurrent(e.getOldCurrent());
 
@@ -44,7 +66,7 @@ public class Redstone implements Listener {
             }
             if (playername != cachedname) {
                 cachedname = playername;
-                ServerUtil.broadcastToOps(C.addPrefix(C.getSecondary(playername) + C.getThird(" has been in a chunk with redstone while the server was lagging, it has been deleted!")));
+                ServerUtil.broadcastToOps(C.addPrefix(C.getSecondary(playername) + C.getThird(" has been in a chunk with redstone while the server was lagging, it has been frozen!")));
             }
         }
 

@@ -89,7 +89,7 @@ Elytra:
 
 Redstone:
   Enabled: true
-  DisableTPS: 19
+  DisableTPS: 15
   MaxLeverCPS: 3
   MaxLampPerSecond: 1 # per 100ms not 1s lol
 
