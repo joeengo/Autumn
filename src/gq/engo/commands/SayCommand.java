@@ -14,8 +14,6 @@ import org.bukkit.entity.Player;
 public class SayCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
-        Boolean enabled = Plugin.Instance.getConfig().getBoolean("Commands.List.Say");
-        if(!enabled) return true;
         Player p = (Player) sender;
         String formattedStr = String.join(" ", args);
         if (s.equalsIgnoreCase("say") && p.isOp()) {

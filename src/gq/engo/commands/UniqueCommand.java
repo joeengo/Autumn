@@ -12,8 +12,6 @@ public class UniqueCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
-        Boolean enabled = Plugin.Instance.getConfig().getBoolean("Commands.List.UniqueJoins");
-        if(!enabled) return true;
         Player p = (Player) sender;
         p.sendMessage(C.chat(C.getPrefix() + C.getThird("") + "The unique amount of joins is: " + C.chat(C.getSecondary("" + (Bukkit.getOfflinePlayers().length)) + C.chat(C.getThird(" players.")))));
         return true;

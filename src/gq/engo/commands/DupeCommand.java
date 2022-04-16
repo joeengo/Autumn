@@ -12,8 +12,6 @@ public class DupeCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String s, String[] args) {
-        Boolean enabled = Plugin.Instance.getConfig().getBoolean("Commands.List.Dupe");
-        if(!enabled) return true;
         Player p = (Player) sender;
         ItemStack i = p.getInventory().getItemInMainHand();
         if (i == null) {

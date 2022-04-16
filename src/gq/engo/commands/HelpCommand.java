@@ -17,8 +17,6 @@ public class HelpCommand implements CommandExecutor {
      */
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String labels, String[] args) {
-        Boolean enabled = Plugin.Instance.getConfig().getBoolean("Commands.List.Help");
-        if(!enabled) return true;
         String help = String.join("\n", Plugin.Instance.getConfig().getStringList("Commands.Help.Message"));
         Player p = (Player) sender;
         p.sendMessage(C.chat(help));

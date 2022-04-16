@@ -7,14 +7,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 
-public class VanishCommand implements CommandExecutor {
+public class VanishCommand implements CommandExecutor, Listener {
     public static final java.util.HashMap<Player, Boolean> vanished = new java.util.HashMap<>();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        Boolean enabled = Plugin.Instance.getConfig().getBoolean("Commands.List.Vanish");
-        if(!enabled) return true;
         Player p = (Player) sender;
         String vanishenabled = Plugin.Instance.getConfig().getString("Commands.Vanished.Vanished-Enabled").replaceAll("%prefix%", C.getPrefix()).replaceAll("%thirdcolour%", C.getThird("")).replaceAll("%secondary-colour%", C.getSecondary(""));
         String vanishedisabled = Plugin.Instance.getConfig().getString("Commands.Vanished.Vanished-Disabled").replaceAll("%prefix%", C.getPrefix()).replaceAll("%thirdcolour%", C.getThird("")).replaceAll("%secondary-colour%", C.getSecondary(""));
@@ -32,7 +33,6 @@ public class VanishCommand implements CommandExecutor {
                 for (Player i : Bukkit.getOnlinePlayers()) {
                     if (!i.hasPermission("autumn.vanish")) {
                         i.showPlayer(Plugin.Instance, p);
-
                     }
                 }
                 p.sendMessage(C.chat(vanishedisabled));
@@ -43,4 +43,16 @@ public class VanishCommand implements CommandExecutor {
 
         return true;
     }
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e) {
+        if (!e.getPlayer().hasPermission("autumn.vanish")) {
+            for (Player i : Bukkit.getOnlinePlayers()) {
+                if (vanished.get(i) == true) {
+                    e.getPlayer().hidePlayer(Plugin.Instance, i);
+                }
+            }
+        }
+    }
+
 }

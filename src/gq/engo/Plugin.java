@@ -57,19 +57,45 @@ public class Plugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MobAI(), this);
         Bukkit.getPluginManager().registerEvents(new RandomSpawn(), this);
         Bukkit.getPluginManager().registerEvents(new DeathMessages(), this);
+        Bukkit.getPluginManager().registerEvents(new VanishCommand(), this);
 
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new TPS(), 100L, 1L);
 
+
+        Boolean vanish = Plugin.Instance.getConfig().getBoolean("Commands.List.Vanish");
+        Boolean kill = Plugin.Instance.getConfig().getBoolean("Commands.List.Vanish");
+        Boolean discord = Plugin.Instance.getConfig().getBoolean("Commands.List.Vanish");
+        Boolean gettps = Plugin.Instance.getConfig().getBoolean("Commands.List.Vanish");
+        Boolean help = Plugin.Instance.getConfig().getBoolean("Commands.List.Vanish");
+        Boolean uniquejoins = Plugin.Instance.getConfig().getBoolean("Commands.List.Vanish");
+        Boolean say = Plugin.Instance.getConfig().getBoolean("Commands.List.Vanish");
+        Boolean dupe = Plugin.Instance.getConfig().getBoolean("Commands.List.Vanish");
+
         this.getCommand("autumn").setExecutor((CommandExecutor) new AutumnCommand());
-        this.getCommand("kill").setExecutor((CommandExecutor) new KillCommand());
-        this.getCommand("discord").setExecutor((CommandExecutor) new DiscordCommand());
-        this.getCommand("vanish").setExecutor((CommandExecutor) new VanishCommand());
-        this.getCommand("getTPS").setExecutor((CommandExecutor) new TPSCommand());
-        this.getCommand("help").setExecutor((CommandExecutor) new HelpCommand());
-        this.getCommand("uniquejoins").setExecutor((CommandExecutor) new UniqueCommand());
-        this.getCommand("say").setExecutor((CommandExecutor) new SayCommand());
-        this.getCommand("dupe").setExecutor((CommandExecutor) new DupeCommand());
-        //this.getCommand("crash").setExecutor((CommandExecutor) new CrashCommand());
+        if (kill) {
+            this.getCommand("kill").setExecutor((CommandExecutor) new KillCommand());
+        }
+        if (discord) {
+            this.getCommand("discord").setExecutor((CommandExecutor) new DiscordCommand());
+        }
+        if (vanish) {
+            this.getCommand("vanish").setExecutor((CommandExecutor) new VanishCommand());
+        }
+        if (gettps) {
+            this.getCommand("getTPS").setExecutor((CommandExecutor) new TPSCommand());
+        }
+        if (help) {
+            this.getCommand("help").setExecutor((CommandExecutor) new HelpCommand());
+        }
+        if (uniquejoins) {
+            this.getCommand("uniquejoins").setExecutor((CommandExecutor) new UniqueCommand());
+        }
+        if (say) {
+            this.getCommand("say").setExecutor((CommandExecutor) new SayCommand());
+        }
+        if (dupe) {
+            this.getCommand("dupe").setExecutor((CommandExecutor) new DupeCommand());
+        }
     }
 
     @Override
