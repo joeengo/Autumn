@@ -14,7 +14,7 @@ Commands:
   # Enable/Disable commands:
   List:
     Help: true
-    Vanish: true
+    Vanish: false # this vanish command is a huge wip
     TPS: true
     Discord: true
     UniqueJoins: true
