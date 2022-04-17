@@ -48,7 +48,7 @@ public class VanishCommand implements CommandExecutor, Listener {
     public void onJoin(PlayerJoinEvent e) {
         if (!e.getPlayer().hasPermission("autumn.vanish")) {
             for (Player i : Bukkit.getOnlinePlayers()) {
-                if (vanished.get(i) == true) {
+                if (vanished.get(i) != null && vanished.get(i) == true) {
                     e.getPlayer().hidePlayer(Plugin.Instance, i);
                 }
             }

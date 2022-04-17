@@ -10,7 +10,6 @@ Secondary-Colour: "&6"
 Third-Colour: "&7"
 
 Commands:
-
   # Enable/Disable commands:
   List:
     Help: true
@@ -20,6 +19,7 @@ Commands:
     UniqueJoins: true
     Say: true
     Kill: true
+    Stats: true
     Dupe: true # /dupe command dupes the items in the senders hand (ops only)
 
 
@@ -28,8 +28,8 @@ Commands:
     Message: "%prefix%&cYou don't have permission to execute this command!"
 
   Vanished:
-    Vanished-Enabled: "%prefix%&7You have enabled your &6Vanish&7!"
-    Vanished-Disabled: "%prefix%&7You have disabled your &6Vanish&7!"
+    Vanished-Enabled: "%prefix%&7 You have enabled your &6Vanish&7!"
+    Vanished-Disabled: "%prefix%&7 You have disabled your &6Vanish&7!"
 
   Help:
     Message:
@@ -41,6 +41,34 @@ Commands:
       - '&3This is the default help message for the plugin'
       - '&3Customise this in the config.yml.'
       - '&6----------------------'
+
+  Stats:
+    Message:
+      - '&6----------------------'
+      - "&3Server stats"
+      - "&6-"
+      - "&3World size: %size%"
+      - '&6----------------------'
+
+Tablist:
+  Header:
+    - ""
+    - "&2&lmc&a&l.engo&2&l.gq"
+    - ""
+    - "    &6Item frame dupe will be removed soon."
+    - ""
+    - ""
+  Footer:
+    - ""
+    - ""
+    - "          &7TPS: %real-tps% &7[%tps%&7] &7- ping: &f%ping% &7- players: &f%online% &7- uptime: &f%uptime%          "
+    - "&7RAM: &f%usedmem%&7/&f%totalmem% MB"
+    - ""
+    - "&adiscord.gg&2/&ahukur5nshX"
+    - ""
+
+
+
 
 # This is where you can put your discord link and will show~
 # when a player does the /discord command.

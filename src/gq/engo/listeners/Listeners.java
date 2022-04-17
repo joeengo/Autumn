@@ -21,7 +21,9 @@ public class Listeners implements Listener {
         boolean joinmessagesenabled = Plugin.Instance.getConfig().getBoolean("Joins.JoinMessages.Enabled");
         if (joinmessagesenabled == true) {
             String joinmsg = Plugin.Instance.getConfig().getString("Joins.JoinMessages.Message").replaceAll("%player%", p.getName()).replaceAll("%prefix%", C.getPrefix());
-            ServerUtil.broadcast(C.chat(joinmsg));
+            if (!ServerUtil.isVanished(p)) {
+                ServerUtil.broadcast(C.chat(joinmsg));
+            }
             e.setJoinMessage(null);
         }
         if (newsmessagesenabled == true) {
@@ -39,7 +41,9 @@ public class Listeners implements Listener {
         boolean gm = Plugin.Instance.getConfig().getBoolean("Quits.Gamemode");
         if (quitmessagesenabled == true) {
             String quitmsg = Plugin.Instance.getConfig().getString("Quits.QuitMessages.Message").replaceAll("%player%", p.getName());
-            ServerUtil.broadcast(C.chat(quitmsg));
+            if (!ServerUtil.isVanished(p)) {
+                ServerUtil.broadcast(C.chat(quitmsg));
+            }
             e.setQuitMessage(null);
         }
 

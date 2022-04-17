@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.BlockStateMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -25,6 +26,22 @@ import java.util.Map;
 import java.util.Objects;
 
 public class ServerUtil {
+
+    public static boolean isVanished(Player player) {
+        for (MetadataValue meta : player.getMetadata("vanished")) {
+            if (meta.asBoolean()) return true;
+        }
+        return false;
+    }
+
+    public static String formatTime(long milli) {
+        long seconds = -milli / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+        return days + "d " + hours % 24 + "h " + minutes % 60 + "m " + seconds % 60 + "s";
+    }
+
     public static void broadcast(String message) {
         for (Player p : Bukkit.getOnlinePlayers()) {
             p.sendMessage(message);
@@ -39,11 +56,11 @@ public class ServerUtil {
         }
     }
 
-    public static Player[] getOnline() {
-        Player[] plrs = {};
+    public static int getOnline() {
+        int plrs = 0;
         for (Player p : Bukkit.getOnlinePlayers()) {
-            if (!VanishCommand.vanished.get(p)) {
-                plrs[plrs.length + 1] = p;
+            if (!isVanished(p) && (VanishCommand.vanished.get(p) == null || VanishCommand.vanished.get(p)==false) ) {
+                plrs = plrs + 1;
             }
         }
         return plrs;
@@ -295,5 +312,9 @@ public class ServerUtil {
 
     public static boolean opCheck(Player p, String path) {
         return (!p.isOp() || !Plugin.Instance.getConfig().getBoolean(path + ".OPsBypass"));
+    }
+
+    public static String RAM(long l) {
+        return l / (1024 * 1024) + "";
     }
 }
