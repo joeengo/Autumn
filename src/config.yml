@@ -169,6 +169,9 @@ Chat:
     - "discordapp.com"
     - "engo.gq"
 
+EntitySpeed:
+  MaxSpeed: 3 # set to like 999999 to disable.
+
 # EntityLimit is the max amount of falling sand/gravel in one chunk.
 SandLag:
   Enabled: true
