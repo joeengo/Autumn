@@ -21,6 +21,7 @@ Commands:
     Kill: true
     Stats: true
     Dupe: true # /dupe command dupes the items in the senders hand (ops only)
+    Gamemode: true
 
 
   #%prefix% ~ The Plugins prefix.
@@ -55,7 +56,7 @@ Tablist:
     - ""
     - "&2&lmc&a&l.engo&2&l.gq"
     - ""
-    - "    &6Item frame dupe will be removed soon."
+    - "&6Item frame dupe will be removed soon."
     - ""
     - ""
   Footer:

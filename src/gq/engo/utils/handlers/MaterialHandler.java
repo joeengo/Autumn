@@ -39,7 +39,6 @@ public class MaterialHandler {
                 Material.COMMAND_REPEATING,
                 Material.STRUCTURE_BLOCK,
                 Material.STRUCTURE_VOID,
-                Material.SOIL,
                 Material.MONSTER_EGG,
                 Material.MOB_SPAWNER,
                 Material.MONSTER_EGGS

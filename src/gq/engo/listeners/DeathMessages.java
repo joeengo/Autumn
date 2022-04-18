@@ -49,6 +49,8 @@ public class DeathMessages implements Listener {
             }
             if (e.getEntity().getKiller() != null) {
                 message = message.replaceAll("%killer%", e.getEntity().getKiller().getName());
+            } else {
+                message = C.chat(getDeathMessageFromString("GENERAL")).replaceAll("%player%", e.getEntity().getName());
             }
             e.setDeathMessage(message);
         }
