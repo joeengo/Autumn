@@ -153,10 +153,21 @@ BowBomb: # prevent bow exploit
   MaxVelocity: 14
 
 Chat:
-#The Enabled setting is if you want to enable a chat-cooldown..
   Enabled: true
-  Message-Cooldown: 1
-  Kick: true
+  Blacklist: #blacklist
+    - ".com"
+    - ".net"
+    - ".org"
+    - ".ru"
+    - ".xyz"
+    - ".tk"
+    - ".gg"
+    - ".gq"
+  Whitelist: # these can bypass the blacklist, useful for whitelisting your own links!
+    - "discord.gg"
+    - "discord.com"
+    - "discordapp.com"
+    - "engo.gq"
 
 # EntityLimit is the max amount of falling sand/gravel in one chunk.
 SandLag:
