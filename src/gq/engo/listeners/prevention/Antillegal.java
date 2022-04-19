@@ -151,6 +151,18 @@ public class Antillegal implements Listener {
     }
 
     @EventHandler
+    public void onInteract(PlayerInteractEvent e) {
+        if (ServerUtil.isIllegal(e.getPlayer().getInventory().getItemInMainHand(), false)) {
+            e.getPlayer().getInventory().getItemInMainHand().setAmount(0);
+            e.getPlayer().sendMessage(C.chat(C.addPrefix("Illegal item! ("+ServerUtil.getIllegalReason(e.getPlayer().getInventory().getItemInMainHand(), false)+")")));
+        }
+        if (ServerUtil.isIllegal(e.getPlayer().getInventory().getItemInOffHand(), false)) {
+            e.getPlayer().getInventory().getItemInOffHand().setAmount(0);
+            e.getPlayer().sendMessage(C.chat(C.addPrefix("Illegal item! ("+ServerUtil.getIllegalReason(e.getPlayer().getInventory().getItemInOffHand(), false)+")")));
+        }
+    }
+
+    @EventHandler
     public void onMove(PlayerMoveEvent e) {
         if (Plugin.Instance.getConfig().getBoolean("Illegals.Enabled") == false) return;
         // anti potion illegal thing

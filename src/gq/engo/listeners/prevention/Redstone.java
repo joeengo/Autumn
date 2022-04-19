@@ -70,7 +70,7 @@ public class Redstone implements Listener {
             }
         }
 
-        if (e.getBlock().getType().toString().toLowerCase().contains("redstone_lamp")) {
+        if (e.getBlock().getType().toString().toLowerCase().contains("redstone_lamp") && e.getBlock().getLocation().getY() >= Plugin.Instance.getConfig().getInt("Redstone.LampY")) {
             if (lamps.containsKey(e.getBlock())) {
                 lamps.put(e.getBlock(), lamps.get(e.getBlock()) + 1);
             } else {
@@ -83,10 +83,10 @@ public class Redstone implements Listener {
                         lamps.put(e.getBlock(), lamps.get(e.getBlock())-1);
                     }
                 },
-                100
+                3000
             );
 
-            if (lamps.get(e.getBlock()) > Plugin.Instance.getConfig().getInt("Redstone.MaxLampPerSecond")) {
+            if (lamps.get(e.getBlock()) > Plugin.Instance.getConfig().getInt("Redstone.LampLimit")) {
                 e.setNewCurrent(e.getOldCurrent());
             }
         }

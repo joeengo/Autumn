@@ -24,6 +24,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class ServerUtil {
 
@@ -213,6 +214,23 @@ public class ServerUtil {
             }
         }
 
+        if (item.getItemMeta() != null) {
+            AtomicBoolean doReturn = new AtomicBoolean(false);
+            item.getItemMeta().getEnchants().forEach((v2, _unused) -> {
+                item.getItemMeta().getEnchants().forEach((v, _unused2) -> {
+                    if (v2 != v) {
+                        if (v2.conflictsWith(v)) {
+                            doReturn.set(true);
+                        }
+                    }
+                });
+            });
+            if (doReturn.get() == true) {
+                return true;
+            }
+        }
+
+
         return (item.getAmount() > item.getMaxStackSize()) && Plugin.Instance.getConfig().getBoolean("Illegals.RevertOverstacks");
     }
 
@@ -300,6 +318,22 @@ public class ServerUtil {
                 if (isIllegal(i, true)) {
                     return getIllegalReason(i, true);
                 }
+            }
+        }
+
+        if (item.getItemMeta() != null) {
+            AtomicBoolean doReturn = new AtomicBoolean(false);
+            item.getItemMeta().getEnchants().forEach((v2, _unused) -> {
+                item.getItemMeta().getEnchants().forEach((v, _unused2) -> {
+                    if (v2 != v) {
+                        if (v2.conflictsWith(v)) {
+                            doReturn.set(true);
+                        }
+                    }
+                });
+            });
+            if (doReturn.get() == true) {
+                return "Conflicting enchantment(s)";
             }
         }
 

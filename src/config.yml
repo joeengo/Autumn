@@ -120,7 +120,8 @@ Redstone:
   Enabled: true
   DisableTPS: 15
   MaxLeverCPS: 3
-  MaxLampPerSecond: 1 # per 100ms not 1s lol
+  LampLimit: 10 # prevents lamps being spammed ig
+  LampY: 175 # the y level it starts to limit lamps at, this is recommended to be over 175 and if people complain make it 230+
 
 Water-Lag: # waterlag
   Enabled: true
