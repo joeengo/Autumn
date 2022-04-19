@@ -60,7 +60,6 @@ public class Plugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MobAI(), this);
         Bukkit.getPluginManager().registerEvents(new RandomSpawn(), this);
         Bukkit.getPluginManager().registerEvents(new DeathMessages(), this);
-        Bukkit.getPluginManager().registerEvents(new EntitySpeed(), this);
         Bukkit.getPluginManager().registerEvents(new VanishCommand(), this);
 
         Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(this, new TPS(), 100L, 1L);
